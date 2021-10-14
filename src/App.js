@@ -1,6 +1,7 @@
 import './App.css';
 import CountryList from './components/CountryList/CountryList';
 import React from 'react';
+import _ from 'lodash'
 
 class App extends React.Component{
   constructor(){
@@ -11,12 +12,12 @@ class App extends React.Component{
     }
   }
   async componentDidMount(){
-    const listUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily,confirmed,deaths,population,recovered';
-    const detailUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily&uid=';
+    const listUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily,confirmed,deaths,recovered';
+    const detailUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily&uid=';
         
     const response = await fetch(listUrl)
     const data = await response.json();
-    const countries = Object.values(data.reduce( (r, a)  => {
+    const countries = Object.values(_.orderBy(data, [c => c.population], ['desc']).reduce( (r, a)  => {
       r[a.country] = r[a.country] || a.uid;
       return r;
     }, {}));
@@ -31,10 +32,12 @@ class App extends React.Component{
         const row = data[0];
         const country = {
           Id: row.uid,
+          Code: row.country_iso2 ? row.country_iso2.toLowerCase() : "zz",
           Country: row.country,
           Deaths : row.deaths,
           Recovered : row.recovered,
-          Confirmed : row.confirmed
+          Confirmed : row.confirmed,
+          Population: row.population
         };
         this.setState(prevState => (
             {stats: prevState.stats.concat(country)}
