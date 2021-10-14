@@ -6,22 +6,34 @@ class App extends React.Component{
   constructor(){
     super();
     this.state = {
-      countries: []
+      countries: [],
+      stats: []
     }
   }
   async componentDidMount(){
-    const data = await fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z')
-    .then(response => response.json());
+    const listUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily';
+    const detailUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily&uid=';
+        
+    const response = await fetch(listUrl)
+    const countries = await response.json();
+    this.setState({countries});
 
-    const countries = data.map( e => {
-      return {
-        Id: e.uid,
-        Country: e.combined_name
-      };
+    this.state.countries.forEach(async e => {
+      const response = await fetch(detailUrl + e.uid)
+      const data = await response.json();
+      if (data.length)
+      {
+        const row = data[0];
+        const country = {
+          Id: row.uid,
+          Country: row.country
+
+        };
+        this.setState(prevState => (
+            {stats: prevState.stats.concat(country)}
+          ));
+      }
     });
-
-    this.setState({countries: countries});
-
   }
   render(){
     return (
@@ -29,7 +41,7 @@ class App extends React.Component{
         <h1>Countries</h1>
         <Katanda/>
         {
-          this.state.countries.map(country => <h2 key={country.Id}>{country.Country}<br/>{country.Id}</h2>)
+          this.state.stats.map(country => <h2 key={country.Id}>{country.Country}<br/>{country.Id}</h2>)
         }
         
       </div>
