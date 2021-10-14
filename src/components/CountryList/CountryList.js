@@ -1,15 +1,14 @@
 import React from "react";
+import Country from '../Country/Country';
 
-class Country extends React.Component{
-    constructor(props){
-        super();
-        this.state = {stats: props.stats};
-    }
+
+
+class CountryList extends React.Component{
     render(){
         return(
             <div>
                 {
-                    this.state.stats.map(country => <h1>{country.Country}</h1>)
+                    this.props.stats.map(country => <Country key={country.Id} stats={country}/>)
                 }
             </div>
             
@@ -18,4 +17,4 @@ class Country extends React.Component{
 }
 
 
-export default Country;
+export default CountryList;
