@@ -14,7 +14,8 @@ class Katanda extends React.Component{
                 <p>
                 Wakanda foreva, {this.state.name}!!!
                 </p>
-                <button onClick={() => this.setState({name: 'Michael'})}>Change name</button>
+                <button onClick={() => this.setState({name: this.state.name === "Guido"?'Michael':"Guido"})}>Change name</button>
+                <button className="square" onClick={() => console.log('click')}>Katanda me</button>
             </div>
             
         )

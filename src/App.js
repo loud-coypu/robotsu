@@ -6,23 +6,30 @@ class App extends React.Component{
   constructor(){
     super();
     this.state = {
-      countries: [], stats: []
+      countries: []
     }
   }
   async componentDidMount(){
-    const resp = await fetch('https://api.covid19api.com/countries');
-    const countries = await resp.json();
+    const data = await fetch('https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z')
+    .then(response => response.json());
+
+    const countries = data.map( e => {
+      return {
+        Id: e.uid,
+        Country: e.combined_name
+      };
+    });
 
     this.setState({countries: countries});
-    const stats = countries.map(c => 66);
-    this.setState({stats: stats});
+
   }
   render(){
     return (
       <div className="App">
         <h1>Countries</h1>
+        <Katanda/>
         {
-          this.state.stats.map(country => <h2>{country}</h2>)
+          this.state.countries.map(country => <h2 key={country.Id}>{country.Country}<br/>{country.Id}</h2>)
         }
         
       </div>
