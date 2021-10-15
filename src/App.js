@@ -12,6 +12,7 @@ class App extends React.Component{
       stats: [],
       searchField: ""
     }
+    this.handleChange = this.handleChange.bind(this);
   }
 
   async componentDidMount(){
@@ -48,13 +49,17 @@ class App extends React.Component{
       }
     });
   }
+  handleChange(e){
+    this.setState({searchField: e.target.value})
+  }
+  
   render(){
     const {stats, searchField} = this.state;
     const filteredCountries = stats.filter(c => c.Country.toLowerCase().includes(searchField.toLowerCase()));
     return (
       <div className="App">
         <h1>Countries</h1>
-        <Sersbox placeholder="Enter country name" handleChange={(e) => this.setState({searchField: e.target.value})}/>
+        <Sersbox placeholder="Enter country name" handleChange={this.handleChange}/>
         <CountryList stats={filteredCountries}/>
       </div>
     );

@@ -1,18 +1,17 @@
 import React from 'react';
 import './country.css';
 
-const Country = (props) => {
-    const c = props.stats;
-    const imgSrc = c.Code && c.Code !== "zz" ? `https://www.countryflags.io/${c.Code}/flat/64.png` : "img/64.png";
+const Country = ({stats}) => {
+    const imgSrc = stats.Code && stats.Code !== "zz" ? `https://www.countryflags.io/${stats.Code}/flat/64.png` : "img/64.png";
     return(
         <div className="country">
-            <img src={imgSrc} alt={c.Code}></img>
-            <h2>{c.Country}</h2>
+            <img src={imgSrc} alt={stats.Code}></img>
+            <h2>{stats.Country}</h2>
             <div className="stats">
-                <p>{`Population : ${c.Population}`}</p>
-                <p>{`Confirmed : ${c.Confirmed}`}</p>
-                <p>{`Deaths : ${c.Deaths}`}</p>
-                <p>{`Recovered : ${c.Recovered}`}</p>
+                <p>{`Population : ${stats.Population}`}</p>
+                <p>{`Confirmed : ${stats.Confirmed}`}</p>
+                <p>{`Deaths : ${stats.Deaths}`}</p>
+                <p>{`Recovered : ${stats.Recovered}`}</p>
             </div>
         </div>
     )
