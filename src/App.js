@@ -1,4 +1,5 @@
 import './App.css';
+import Sersbox from './components/Sersbox/Sersbox';
 import CountryList from './components/CountryList/CountryList';
 import React from 'react';
 import _ from 'lodash'
@@ -8,9 +9,11 @@ class App extends React.Component{
     super();
     this.state = {
       countries: [],
-      stats: []
+      stats: [],
+      searchField: ""
     }
   }
+
   async componentDidMount(){
     const listUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso2,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily,confirmed,deaths,recovered';
     const detailUrl = 'https://webhooks.mongodb-stitch.com/api/client/v2.0/app/covid-19-qppza/service/REST-API/incoming_webhook/global?min_date=2021-10-13T00:00:00.000Z&max_date=2021-10-13T00:00:00.000Z&hide_fields=_id,combined_name,country_iso3,loc,state,country_code,confirmed_daily,date,deaths_daily,recovered_daily&uid=';
@@ -25,7 +28,7 @@ class App extends React.Component{
     this.setState({countries});
 
     this.state.countries.forEach(async e => {
-      const response = await fetch(detailUrl + e)
+      const response = await fetch(detailUrl + e);
       const data = await response.json();
       if (data.length)
       {
@@ -46,10 +49,13 @@ class App extends React.Component{
     });
   }
   render(){
+    const {stats, searchField} = this.state;
+    const filteredCountries = stats.filter(c => c.Country.toLowerCase().includes(searchField.toLowerCase()));
     return (
       <div className="App">
         <h1>Countries</h1>
-        <CountryList stats={this.state.stats}/>
+        <Sersbox placeholder="Enter country name" handleChange={(e) => this.setState({searchField: e.target.value})}/>
+        <CountryList stats={filteredCountries}/>
       </div>
     );
   }
