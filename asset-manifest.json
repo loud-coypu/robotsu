@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/robotsu/static/css/main.2aa17c01.chunk.css",
+    "main.js": "/robotsu/static/js/main.abb49721.chunk.js",
+    "main.js.map": "/robotsu/static/js/main.abb49721.chunk.js.map",
+    "runtime-main.js": "/robotsu/static/js/runtime-main.a86d7f53.js",
+    "runtime-main.js.map": "/robotsu/static/js/runtime-main.a86d7f53.js.map",
+    "static/js/2.9ad7be99.chunk.js": "/robotsu/static/js/2.9ad7be99.chunk.js",
+    "static/js/2.9ad7be99.chunk.js.map": "/robotsu/static/js/2.9ad7be99.chunk.js.map",
+    "static/js/3.7f6317d2.chunk.js": "/robotsu/static/js/3.7f6317d2.chunk.js",
+    "static/js/3.7f6317d2.chunk.js.map": "/robotsu/static/js/3.7f6317d2.chunk.js.map",
+    "index.html": "/robotsu/index.html",
+    "static/css/main.2aa17c01.chunk.css.map": "/robotsu/static/css/main.2aa17c01.chunk.css.map",
+    "static/js/2.9ad7be99.chunk.js.LICENSE.txt": "/robotsu/static/js/2.9ad7be99.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.a86d7f53.js",
+    "static/js/2.9ad7be99.chunk.js",
+    "static/css/main.2aa17c01.chunk.css",
+    "static/js/main.abb49721.chunk.js"
+  ]
+}
