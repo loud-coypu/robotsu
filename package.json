@@ -19,7 +19,6 @@
     "build": "react-scripts build",
     "test": "BROWSER='google-chrome-stable' react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
